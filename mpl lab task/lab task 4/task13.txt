@@ -1,0 +1,84 @@
+.model small
+.stack 100h
+.data 
+    msg db 'enter a number (1-7): $'
+    sat db 'saturday$'
+    sun db 'sunday$'
+    mon db 'monday$'
+    tue db 'tuesday$'
+    wed db 'wednesday$'
+    thu db 'thursday$'
+    fri db 'friday$'
+
+.code
+main proc
+    mov ax, @data
+    mov ds, ax 
+
+    mov ah, 09h
+    lea dx, msg
+    int 21h
+
+    mov ah, 1
+    int 21h
+    sub al, '0'
+
+    cmp al, 1
+    je print_sat
+
+    cmp al, 2
+    je print_sun
+
+    cmp al, 3
+    je print_mon
+
+    cmp al, 4
+    je print_tue
+
+    cmp al, 5
+    je print_wed
+
+    cmp al, 6
+    je print_thu
+
+    cmp al, 7
+    je print_fri
+
+    mov ax, 4c00h
+    int 21h
+
+print_sat:
+    lea dx, sat
+    jmp display
+
+print_sun:
+    lea dx, sun
+    jmp display
+
+print_mon:
+    lea dx, mon
+    jmp display
+
+print_tue:
+    lea dx, tue
+    jmp display
+
+print_wed:
+    lea dx, wed
+    jmp display
+
+print_thu:
+    lea dx, thu
+    jmp display
+
+print_fri:
+    lea dx, fri
+
+display:
+    mov ah, 09h
+    int 21h
+
+    mov ax, 4c00h
+    int 21h
+main endp
+end main

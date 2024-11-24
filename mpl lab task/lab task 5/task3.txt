@@ -1,0 +1,29 @@
+.model small
+.stack 100h
+.data
+    x_mask db 'XXXXX$'    
+    cr db 0Dh, '$'         
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov cx, 5
+
+read_loop:
+    mov ah, 01h         
+    int 21h
+    loop read_loop
+
+    mov ah, 09h
+    lea dx, cr
+    int 21h
+    
+    mov ah, 09h
+    lea dx, x_mask
+    int 21h
+
+    mov ax, 4c00h
+    int 21h
+main endp
+end main

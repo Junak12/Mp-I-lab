@@ -1,0 +1,48 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+
+.CODE
+MAIN PROC
+MOV AX, @DATA
+MOV DS, AX 
+
+mov ah, 1
+int 21h 
+mov bl, al
+sub bl, 48       
+
+cmp bl, 1
+je display_o
+
+cmp bl, 3
+je display_o
+
+cmp bl, 2
+je display_e
+
+cmp bl, 4
+je display_e
+
+jmp done
+
+display_o:
+mov cl, 'o'
+mov ah, 2  
+mov dl, cl
+int 21h
+jmp done
+
+display_e:
+mov cl, 'e'
+mov ah, 2
+mov dl, cl
+int 21h
+jmp done
+
+done:
+MOV AX, 4C00H
+INT 21H
+
+MAIN ENDP
+END MAIN

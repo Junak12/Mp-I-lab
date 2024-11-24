@@ -1,0 +1,84 @@
+.MODEL SMALL
+.STACK 100H
+.DATA 
+    msg1 db 'Enter three numbers: $'
+    msgMax db 'Maximum number is: $'
+    msgMin db 'Minimum number is: $'
+    num1 db 0
+    num2 db 0
+    num3 db 0
+    maxNum db 0
+    minNum db 0
+
+.CODE
+MAIN PROC
+    MOV AX, @DATA
+    MOV DS, AX 
+
+    MOV AH, 09h
+    LEA DX, msg1
+    INT 21h
+
+    MOV AH, 1
+    INT 21h
+    SUB AL, '0'
+    MOV num1, AL
+
+    MOV AH, 1
+    INT 21h
+    SUB AL, '0'
+    MOV num2, AL
+
+    MOV AH, 1
+    INT 21h
+    SUB AL, '0'
+    MOV num3, AL
+
+    MOV AL, num1
+    MOV maxNum, AL
+    MOV minNum, AL
+
+    MOV AL, num2
+    CMP AL, maxNum
+    JLE checkMin1
+    MOV maxNum, AL
+checkMin1:
+    CMP AL, minNum
+    JGE nextCheck
+    MOV minNum, AL
+nextCheck:
+
+    MOV AL, num3
+    CMP AL, maxNum
+    JLE checkMin2
+    MOV maxNum, AL
+checkMin2:
+    CMP AL, minNum
+    JGE displayResults
+    MOV minNum, AL
+
+displayResults:
+    MOV AH, 09h
+    LEA DX, msgMax
+    INT 21h
+
+    MOV AL, maxNum
+    ADD AL, '0'
+    MOV DL, AL
+    MOV AH, 02h
+    INT 21h
+
+    MOV AH, 09h
+    LEA DX, msgMin
+    INT 21h
+
+    MOV AL, minNum
+    ADD AL, '0'
+    MOV DL, AL
+    MOV AH, 02h
+    INT 21h
+
+    MOV AX, 4C00H
+    INT 21H
+MAIN ENDP
+END MAIN

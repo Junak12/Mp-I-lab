@@ -1,0 +1,46 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+
+.CODE
+MAIN PROC
+; Initialize DS
+MOV AX, @DATA
+MOV DS, AX 
+ 
+mov ax, -1
+
+cmp ax, 0          
+je zero_case       
+
+jl negative_case   
+mov bx, 1           
+jmp done            
+
+negative_case:
+mov bx, -1          
+jmp done2            
+
+zero_case:
+mov bx, 0 
+
+done:
+mov ah, 2
+mov dx, bx 
+add dx, 48
+int 21h
+jmp done1
+
+done2:
+mov cx, 45
+mov ah, 2
+mov dx, cx
+int 21h
+jmp done          
+
+done1:
+MOV AX, 4C00H       
+INT 21H
+
+MAIN ENDP
+END MAIN

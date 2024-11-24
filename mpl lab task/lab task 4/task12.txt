@@ -1,0 +1,70 @@
+.model small
+.stack 100h
+.data 
+    msg db 'enter a digit (0-10): $'
+    out_i db 'i$'
+    out_k db 'k$'
+    out_l db 'l$'
+    out_m db 'm$'
+
+.code
+main proc
+    mov ax, @data
+    mov ds, ax 
+
+    mov ah, 09h
+    lea dx, msg
+    int 21h
+
+    mov ah, 1
+    int 21h
+    sub al, '0'
+
+    cmp al, 0
+    jl invalid_input
+
+    cmp al, 3
+    jle print_i
+
+    cmp al, 4
+    jl invalid_input
+
+    cmp al, 6
+    jle print_k
+
+    cmp al, 7
+    jl invalid_input
+
+    cmp al, 9
+    jle print_l
+
+    cmp al, 10
+    je print_m
+
+invalid_input:
+    mov ax, 4c00h
+    int 21h
+
+print_i:
+    lea dx, out_i
+    jmp display
+
+print_k:
+    lea dx, out_k
+    jmp display
+
+print_l:
+    lea dx, out_l
+    jmp display
+
+print_m:
+    lea dx, out_m
+
+display:
+    mov ah, 09h
+    int 21h
+
+    mov ax, 4c00h
+    int 21h
+main endp
+end main

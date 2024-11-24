@@ -1,0 +1,67 @@
+.MODEL SMALL
+.STACK 100H
+.DATA 
+
+a db ?
+b db ?
+m1 db 'The sum of $'
+m2 db ' and $'
+m3 db ' is $'
+
+.CODE
+MAIN PROC
+;iniitialize DS
+MOV AX,@DATA
+MOV DS,AX 
+
+; task 4
+
+mov ah, 1
+int 21h
+mov a, al
+
+mov ah, 1
+int 21h
+mov b, al  
+
+mov ah, 2
+mov dl, 13
+int 21h
+mov dl, 10
+int 21h
+
+mov ah, 9
+lea dx, m1
+int 21h
+
+mov ah, 2
+mov dl, a
+int 21h 
+
+mov ah, 9
+lea dx, m2
+int 21h
+
+mov ah, 2
+mov dl, b
+int 21h
+
+ADD bh,a
+ADD bh, b
+
+mov ah, 9
+lea dx, m3
+int 21h
+
+mov ah, 2
+mov dl, bh
+sub dl, 48
+int 21h
+ 
+
+
+
+MOV AX,4C00H
+INT 21H
+MAIN ENDP
+END MAIN
